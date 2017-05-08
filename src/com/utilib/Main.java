@@ -1,5 +1,6 @@
 package com.utilib;
 
+import com.utilib.data_structures.List;
 import com.utilib.data_structures.Node;
 import com.utilib.data_structures.Queue;
 import com.utilib.data_structures.Stack;
@@ -11,6 +12,7 @@ public class Main
 	{
 		Timer.calculateExecutionTime(() -> queueInsertionTest(500000));
 		Timer.calculateExecutionTime(() -> stackInsertionTest(500000));
+		Timer.calculateExecutionTime(() -> listInsertionTest(500000));
 	}
 
 	/**
@@ -43,5 +45,15 @@ public class Main
 			stack.push(new Node<Integer, Integer>(i, i));
 		
 		return stack;
+	}
+	
+	private static List<?,?> listInsertionTest(final int insertionNum)
+	{
+		List<Integer, Integer> list = new List<Integer, Integer>();
+		
+		for (int i = 0; i < insertionNum; i++)
+			list.add(new Node<Integer, Integer>(i, i));
+		
+		return list;
 	}
 }

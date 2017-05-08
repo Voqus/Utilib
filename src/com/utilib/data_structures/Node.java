@@ -4,18 +4,16 @@ public class Node<K, V>
 {
 	private Node<K, V> 	_next;
 	private Node<K, V> 	_previous;
-	private V 			_value;
 	private K 			_key;
+	private V 			_value;
 
 	public Node(final K key, final V value)
 	{
-		_key 	= key;
-		_value	= value;
-	}
-
-	public Node(final V value)
-	{
-		_value = value;
+		_key 		= key;
+		_value		= value;
+		
+		_next 		= null;
+		_previous 	= null;
 	}
 
 	public K getKey()
