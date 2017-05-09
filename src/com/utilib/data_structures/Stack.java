@@ -7,7 +7,7 @@ public class Stack<K, V>
 {
 	private Node<K, V>	_firstNode;
 	private Node<K, V>	_lastNode;
-	private int			_numNodes	= 0;
+	private int			_numNodes = 0;
 	
 	public Stack()
 	{
@@ -64,26 +64,6 @@ public class Stack<K, V>
 	}
 	
 	/**
-	 * Checks if the stack is empty.
-	 * 
-	 * @return boolean
-	 */
-	public boolean isEmpty()
-	{
-		return (_numNodes == 0);
-	}
-	
-	/**
-	 * Returns the size of the stack.
-	 * 
-	 * @return int
-	 */
-	public int size()
-	{
-		return _numNodes;
-	}
-	
-	/**
 	 * Returns the top node of the stack without removing it.
 	 * 
 	 * @return
@@ -119,6 +99,28 @@ public class Stack<K, V>
 		
 		return list;
 	}
+	
+	/**
+	 * Checks if the stack is empty.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isEmpty()
+	{
+		return (_numNodes == 0);
+	}
+	
+	/**
+	 * Returns the size of the stack.
+	 * 
+	 * @return int
+	 */
+	public int size()
+	{
+		return _numNodes;
+	}
+	
+
 	
 	public static void main(String[] args)
 	{

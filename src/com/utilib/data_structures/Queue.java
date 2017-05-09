@@ -73,26 +73,6 @@ public class Queue<K, V>
 	{
 		return _firstNode;
 	}
-
-	/**
-	 * Checks if the queue is empty.
-	 * 
-	 * @return boolean
-	 */
-	public boolean isEmpty()
-	{
-		return (_numNodes == 0);
-	}
-
-	/**
-	 * Returns the size of the queue.
-	 * 
-	 * @return int
-	 */
-	public int size()
-	{
-		return _numNodes;
-	}
 	
 	/**
 	 * Converts the queue to {@code ArrayList}.
@@ -116,6 +96,26 @@ public class Queue<K, V>
 		}
 		
 		return list;
+	}
+
+	/**
+	 * Checks if the queue is empty.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isEmpty()
+	{
+		return (_numNodes == 0);
+	}
+
+	/**
+	 * Returns the size of the queue.
+	 * 
+	 * @return int
+	 */
+	public int size()
+	{
+		return _numNodes;
 	}
 	
 	public static void main(String[] args)
