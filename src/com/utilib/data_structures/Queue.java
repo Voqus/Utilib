@@ -7,18 +7,23 @@ public class Queue<K, V>
 {
 	private QueueNode<K, V> _firstNode;
 	private QueueNode<K, V> _lastNode;
-	private int 			_numNodes = 0;
+	private int _numNodes = 0;
+	private boolean _allowDuplicates = true;
 	
-	public Queue()
+	public Queue(final boolean allowDuplicates)
 	{
-		_firstNode	= null;
-		_lastNode	= null;
+		_allowDuplicates = allowDuplicates;
+		
+		_firstNode = null;
+		_lastNode = null;
 	}
 	
-	public Queue(QueueNode<K, V> node)
+	public Queue(final QueueNode<K, V> node, final boolean allowDuplicates)
 	{
-		_firstNode	= node;
-		_lastNode	= node;
+		_allowDuplicates = allowDuplicates;
+		
+		_firstNode = node;
+		_lastNode = node;
 		_numNodes++;
 	}
 	
@@ -26,17 +31,27 @@ public class Queue<K, V>
 	 * Inserts the {@code node} into the queue.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void insert(final QueueNode<K, V> node)
+	public boolean insert(final QueueNode<K, V> node)
 	{
 		// If the queue is empty, initialize first and last nodes.
 		if (isEmpty())
 		{
-			_firstNode	= node;
-			_lastNode	= node;
+			_firstNode = node;
+			_lastNode = node;
 			_numNodes++;
 			
-			return;
+			return true;
+		}
+		
+		if (!_allowDuplicates)
+		{
+			if (searchDuplicate(node.getKey()))
+			{
+				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
+				return false;
+			}
 		}
 		
 		QueueNode<K, V> tmpNode = _lastNode;
@@ -44,32 +59,44 @@ public class Queue<K, V>
 		_lastNode = node;
 		_numNodes++;
 		
+		return true;
 	}
 	
 	/**
 	 * Inserts the {@code node} into the queue.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void insert(final K key, final V value)
+	public boolean insert(final K key, final V value)
 	{
 		// If the queue is empty, initialize first and last nodes.
 		if (isEmpty())
 		{
-			QueueNode<K,V> node = new QueueNode<K,V>(key, value);
-			_firstNode	= node;
-			_lastNode	= node;
+			QueueNode<K, V> node = new QueueNode<K, V>(key, value);
+			_firstNode = node;
+			_lastNode = node;
 			_numNodes++;
 			
-			return;
+			return true;
 		}
 		
-		QueueNode<K,V> node = new QueueNode<K,V>(key, value);
+		if (!_allowDuplicates)
+		{
+			if (searchDuplicate(key))
+			{
+				System.err.println("Duplicate key[" + key + "] detected.");
+				return false;
+			}
+		}
+		
+		QueueNode<K, V> node = new QueueNode<K, V>(key, value);
 		QueueNode<K, V> tmpNode = _lastNode;
 		tmpNode.setPrevious(node);
 		_lastNode = node;
 		_numNodes++;
 		
+		return true;
 	}
 	
 	/**
@@ -98,6 +125,26 @@ public class Queue<K, V>
 	public QueueNode<K, V> peek()
 	{
 		return _firstNode;
+	}
+	
+	/**
+	 * Searches for duplicate key in the queue.
+	 * 
+	 * @param key
+	 * @return boolean
+	 */
+	private boolean searchDuplicate(final K key)
+	{
+		QueueNode<K, V> currNode = _firstNode;
+		
+		while (currNode != null)
+		{
+			if (currNode.getKey() != key)
+				currNode = currNode.getPrevious();
+			else
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -155,7 +202,7 @@ public class Queue<K, V>
 	
 	public static void main(String[] args)
 	{
-		Queue<Integer, Integer> queue = new Queue<Integer, Integer>();
+		Queue<Integer, Integer> queue = new Queue<Integer, Integer>(true);
 		
 		// Insertion usage
 		for (int i = 0; i < 50; i++)
@@ -180,7 +227,7 @@ public class Queue<K, V>
 		}
 		
 		// Or clear the queue
-		//queue.clear();
+		// queue.clear();
 		
 		System.out.println("Queue size: " + queue.size());
 	}

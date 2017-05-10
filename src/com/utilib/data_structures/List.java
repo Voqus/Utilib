@@ -7,15 +7,19 @@ public class List<K, V>
 	private ListNode<K, V> 	_head;
 	private ListNode<K, V> 	_tail;
 	private int 		_numNodes = 0;
+	private boolean		_allowDuplicates = true;
 	
-	public List()
+	public List(final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
+		
 		_head = null;
 		_tail = null;
 	}
 	
-	public List(final ListNode<K, V> node)
+	public List(final ListNode<K, V> node, final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
 		_head = node;
 		_tail = node;
 		
@@ -26,8 +30,9 @@ public class List<K, V>
 	 * Adds a node to the list.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void add(final ListNode<K, V> node)
+	public boolean add(final ListNode<K, V> node)
 	{
 		// If the list is empty, initialize the head and tail nodes.
 		if (isEmpty())
@@ -36,13 +41,23 @@ public class List<K, V>
 			_tail = node;
 			
 			_numNodes++;
-			return;
+			return true;
+		}
+		
+		if(!_allowDuplicates)
+		{
+			if(searchDuplicates(node.getKey()))
+			{
+				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
+				return false;
+			}
 		}
 		
 		_tail.setNext(node);
 		_tail = node;
 		
 		_numNodes++;
+		return true;
 	}
 	
 	/**
@@ -50,8 +65,9 @@ public class List<K, V>
 	 * 
 	 * @param key
 	 * @param value
+	 * @return boolean
 	 */
-	public void add(final K key, final V value)
+	public boolean add(final K key, final V value)
 	{
 		// If the list is empty, initialize the head and tail nodes.
 		if (isEmpty())
@@ -61,7 +77,16 @@ public class List<K, V>
 			_tail = node;
 			
 			_numNodes++;
-			return;
+			return true;
+		}
+		
+		if(!_allowDuplicates)
+		{
+			if(searchDuplicates(key))
+			{
+				System.err.println("Duplicate key[" + key + "] detected.");
+				return false;
+			}
 		}
 		
 		ListNode<K, V> node = new ListNode<K, V>(key, value);
@@ -69,6 +94,7 @@ public class List<K, V>
 		_tail = node;
 		
 		_numNodes++;
+		return true;
 	}
 	
 	/**
@@ -190,6 +216,26 @@ public class List<K, V>
 	}
 	
 	/**
+	 * Searches for duplicate keys in the list.
+	 * 
+	 * @param key
+	 * @return boolean
+	 */
+	public boolean searchDuplicates(final K key)
+	{
+		ListNode<K,V> currNode = _head;
+		
+		while(currNode != null)
+		{
+			if(currNode.getKey() != key)
+				currNode = currNode.getNext();
+			else
+				return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Prints the list.
 	 */
 	public void print()
@@ -233,7 +279,7 @@ public class List<K, V>
 	
 	public static void main(String[] args)
 	{
-		List<Integer, Integer> list = new List<Integer, Integer>();
+		List<Integer, Integer> list = new List<Integer, Integer>(true);
 		
 		// Insertion usage
 		list.add(new ListNode<Integer, Integer>(0, 10));

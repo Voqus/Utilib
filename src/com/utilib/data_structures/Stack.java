@@ -8,14 +8,18 @@ public class Stack<K, V>
 	private StackNode<K, V> _firstNode;
 	private StackNode<K, V> _lastNode;
 	private int _numNodes = 0;
+	private boolean _allowDuplicates = true;
 	
-	public Stack()
+	public Stack(final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
 		_firstNode = null;
 	}
 	
-	public Stack(StackNode<K, V> node)
+	public Stack(StackNode<K, V> node, final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
+		
 		_firstNode = node;
 		_lastNode = _firstNode;
 		
@@ -26,21 +30,44 @@ public class Stack<K, V>
 	 * Inserts a node into the stack.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void push(final StackNode<K, V> node)
+	public boolean push(final StackNode<K, V> node)
 	{
+		// If the stack is empty, push the new node to it
+		if (isEmpty())
+		{
+			_firstNode = node;
+			_lastNode = _firstNode;
+			
+			_numNodes++;
+			return true;
+		}
+		
+		if (!_allowDuplicates)
+		{
+			if (searchDuplicate(node.getKey()))
+			{
+				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
+				return false;
+			}
+		}
+		
 		StackNode<K, V> tmpNode = _lastNode;
 		_lastNode = node;
 		_lastNode.setNext(tmpNode);
 		_numNodes++;
+		
+		return true;
 	}
 	
 	/**
 	 * Inserts a node into the stack.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void push(final K key, final V value)
+	public boolean push(final K key, final V value)
 	{
 		// If the stack is empty, push the new node to it
 		if (isEmpty())
@@ -50,7 +77,16 @@ public class Stack<K, V>
 			_lastNode = _firstNode;
 			
 			_numNodes++;
-			return;
+			return true;
+		}
+		
+		if (!_allowDuplicates)
+		{
+			if (searchDuplicate(key))
+			{
+				System.err.println("Duplicate key[" + key + "] detected.");
+				return false;
+			}
 		}
 		
 		StackNode<K, V> node = new StackNode<K, V>(key, value);
@@ -58,6 +94,8 @@ public class Stack<K, V>
 		_lastNode = node;
 		_lastNode.setNext(tmpNode);
 		_numNodes++;
+		
+		return true;
 	}
 	
 	/**
@@ -75,7 +113,6 @@ public class Stack<K, V>
 		_lastNode = _lastNode.getNext();
 		_numNodes--;
 		
-		System.out.println(size());
 		return tmpNode;
 	}
 	
@@ -90,6 +127,26 @@ public class Stack<K, V>
 			throw new NoSuchElementException("Stack underflow");
 		
 		return _firstNode;
+	}
+	
+	/**
+	 * Searches for duplicate key in the stack.
+	 * 
+	 * @param key
+	 * @return boolean
+	 */
+	private boolean searchDuplicate(final K key)
+	{
+		StackNode<K, V> currNode = _lastNode;
+		
+		while (currNode != null)
+		{
+			if (currNode.getKey() != key)
+				currNode = currNode.getNext();
+			else
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -147,7 +204,7 @@ public class Stack<K, V>
 	
 	public static void main(String[] args)
 	{
-		Stack<Integer, Integer> stack = new Stack<Integer, Integer>();
+		Stack<Integer, Integer> stack = new Stack<Integer, Integer>(true);
 		
 		// Insertion usage
 		for (int i = 0; i < 50; i++)

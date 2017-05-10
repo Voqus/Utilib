@@ -7,15 +7,18 @@ public class LinkedList<K, V>
 	private Node<K, V> 	_head;
 	private Node<K, V> 	_tail;
 	private int 		_numNodes = 0;
+	private boolean		_allowDuplicates = true;
 	
-	public LinkedList()
+	public LinkedList(final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
 		_head = null;
 		_tail = null;
 	}
 	
-	public LinkedList(Node<K, V> node)
+	public LinkedList(final Node<K, V> node, final boolean allowDuplicates)
 	{
+		_allowDuplicates = allowDuplicates;
 		_head = node;
 		_tail = node;
 		
@@ -26,8 +29,9 @@ public class LinkedList<K, V>
 	 * Adds a node to the linked list.
 	 * 
 	 * @param node
+	 * @return boolean
 	 */
-	public void add(final Node<K, V> node)
+	public boolean add(final Node<K, V> node)
 	{
 		if (isEmpty())
 		{
@@ -35,13 +39,24 @@ public class LinkedList<K, V>
 			_tail = node;
 			
 			_numNodes++;
-			return;
+			return true;
+		}
+		
+		if(!_allowDuplicates)
+		{
+			if(searchDuplicates(node.getKey()))
+			{
+				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
+				return false;
+			}
 		}
 		
 		_tail.setNext(node);
 		node.setPrevious(_tail);
 		_tail = node;
 		_numNodes++;
+		
+		return true;
 	}
 	
 	/**
@@ -49,8 +64,9 @@ public class LinkedList<K, V>
 	 * 
 	 * @param key
 	 * @param value
+	 * @return boolean
 	 */
-	public void add(final K key, final V value)
+	public boolean add(final K key, final V value)
 	{
 		if (isEmpty())
 		{
@@ -59,7 +75,16 @@ public class LinkedList<K, V>
 			_tail = node;
 			
 			_numNodes++;
-			return;
+			return true;
+		}
+		
+		if(!_allowDuplicates)
+		{
+			if(searchDuplicates(key))
+			{
+				System.err.println("Duplicate key[" + key + "] detected.");
+				return false;
+			}
 		}
 		
 		Node<K, V> node = new Node<K, V>(key, value);
@@ -68,6 +93,8 @@ public class LinkedList<K, V>
 		_tail = node;
 		
 		_numNodes++;
+		
+		return true;
 	}
 	
 	/**
@@ -202,6 +229,26 @@ public class LinkedList<K, V>
 	}
 	
 	/**
+	 * Searches for duplicate keys in the list.
+	 * 
+	 * @param key
+	 * @return boolean
+	 */
+	public boolean searchDuplicates(final K key)
+	{
+		Node<K,V> currNode = _head;
+		
+		while(currNode != null)
+		{
+			if(currNode.getKey() != key)
+				currNode = currNode.getNext();
+			else
+				return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Prints the linked list.
 	 */
 	public void print()
@@ -251,7 +298,7 @@ public class LinkedList<K, V>
 	
 	public static void main(String[] args)
 	{
-		LinkedList<Integer, Integer> list = new LinkedList<Integer, Integer>();
+		LinkedList<Integer, Integer> list = new LinkedList<Integer, Integer>(true);
 		
 		// Insertion usage
 		list.add(new Node<Integer, Integer>(0, 0));
