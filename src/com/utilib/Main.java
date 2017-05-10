@@ -2,7 +2,6 @@ package com.utilib;
 
 import com.utilib.data_structures.LinkedList;
 import com.utilib.data_structures.List;
-import com.utilib.data_structures.Node;
 import com.utilib.data_structures.Queue;
 import com.utilib.data_structures.Stack;
 import com.utilib.util.Timer;
@@ -28,7 +27,7 @@ public class Main
 		Queue<Integer, Integer> queue = new Queue<Integer, Integer>();
 		
 		for (int i = 0; i < insertionsNum; i++)
-			queue.insert(new Node<Integer, Integer>(i, i));
+			queue.insert(i, i);
 		
 		return queue;
 	}
@@ -44,7 +43,7 @@ public class Main
 		Stack<Integer, Integer> stack = new Stack<Integer, Integer>();
 		
 		for (int i = 0; i < insertionNum; i++)
-			stack.push(new Node<Integer, Integer>(i, i));
+			stack.push(i, i);
 		
 		return stack;
 	}
@@ -60,7 +59,7 @@ public class Main
 		List<Integer, Integer> list = new List<Integer, Integer>();
 		
 		for (int i = 0; i < insertionNum; i++)
-			list.add(new Node<Integer, Integer>(i, i));
+			list.add(i, i);
 		
 		return list;
 	}
@@ -76,7 +75,7 @@ public class Main
 		LinkedList<Integer, Integer> list = new LinkedList<Integer, Integer>();
 		
 		for (int i = 0; i < insertionNum; i++)
-			list.add(new Node<Integer, Integer>(i, i));
+			list.add(i, i);
 		
 		return list;
 	}

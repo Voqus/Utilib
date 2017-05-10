@@ -59,9 +59,6 @@ public class LinkedList<K, V>
 			_tail = node;
 			
 			_numNodes++;
-			System.out.println("[Node: " + System.identityHashCode(_tail) + " ] = " + _tail + " Previous: "
-					+ System.identityHashCode(_tail.getPrevious()) + " Next: "
-					+ System.identityHashCode(_tail.getNext()));
 			return;
 		}
 		
@@ -220,6 +217,19 @@ public class LinkedList<K, V>
 	}
 	
 	/**
+	 * Clears the linked list.
+	 */
+	public void clear()
+	{
+		Node<K, V> currNode = _head;
+		while (currNode != null)
+		{
+			remove(currNode);
+			currNode = currNode.getNext();
+		}
+	}
+	
+	/**
 	 * Checks if the linked list is empty.
 	 * 
 	 * @return boolean
@@ -266,6 +276,10 @@ public class LinkedList<K, V>
 		list.remove(0, 0);
 		
 		list.print();
+		
+		// Clear list
+		// list.clear();
+		
 		System.out.println(list.size());
 	}
 }

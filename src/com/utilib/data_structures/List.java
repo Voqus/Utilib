@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 
 public class List<K, V>
 {
-	private Node<K, V> 	_head;
-	private Node<K, V> 	_tail;
+	private ListNode<K, V> 	_head;
+	private ListNode<K, V> 	_tail;
 	private int 		_numNodes = 0;
 	
 	public List()
@@ -14,7 +14,7 @@ public class List<K, V>
 		_tail = null;
 	}
 	
-	public List(final Node<K, V> node)
+	public List(final ListNode<K, V> node)
 	{
 		_head = node;
 		_tail = node;
@@ -27,7 +27,7 @@ public class List<K, V>
 	 * 
 	 * @param node
 	 */
-	public void add(final Node<K, V> node)
+	public void add(final ListNode<K, V> node)
 	{
 		// If the list is empty, initialize the head and tail nodes.
 		if (isEmpty())
@@ -40,7 +40,6 @@ public class List<K, V>
 		}
 		
 		_tail.setNext(node);
-		_tail.setPrevious(null);
 		_tail = node;
 		
 		_numNodes++;
@@ -57,7 +56,7 @@ public class List<K, V>
 		// If the list is empty, initialize the head and tail nodes.
 		if (isEmpty())
 		{
-			Node<K, V> node = new Node<K, V>(key, value);
+			ListNode<K, V> node = new ListNode<K, V>(key, value);
 			_head = node;
 			_tail = node;
 			
@@ -65,9 +64,8 @@ public class List<K, V>
 			return;
 		}
 		
-		Node<K, V> node = new Node<K, V>(key, value);
+		ListNode<K, V> node = new ListNode<K, V>(key, value);
 		_tail.setNext(node);
-		_tail.setPrevious(null);
 		_tail = node;
 		
 		_numNodes++;
@@ -79,14 +77,14 @@ public class List<K, V>
 	 * @param key
 	 * @return Node
 	 */
-	public Node<K, V> getByKey(final K key)
+	public ListNode<K, V> getByKey(final K key)
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
 			throw new NoSuchElementException("List is empty.");
 		
 		// Iterate through the list to find the node with the key given.
-		Node<K, V> curr = _head;
+		ListNode<K, V> curr = _head;
 		while (curr != null)
 		{
 			if (curr.getKey() != key)
@@ -104,14 +102,14 @@ public class List<K, V>
 	 * @param value
 	 * @return Node
 	 */
-	public Node<K, V> getByValue(final V value)
+	public ListNode<K, V> getByValue(final V value)
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
 			throw new NoSuchElementException("List is empty.");
 		
 		// Iterate through the list to find the node with the value given.
-		Node<K, V> curr = _head;
+		ListNode<K, V> curr = _head;
 		while (curr != null)
 		{
 			if (curr.getValue() != value)
@@ -128,7 +126,7 @@ public class List<K, V>
 	 * 
 	 * @return
 	 */
-	public Node<K, V> removeFirst()
+	public ListNode<K, V> removeFirst()
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
@@ -137,7 +135,7 @@ public class List<K, V>
 		// If the head is the tail, there is only one node left, remove it.
 		if (_head == _tail)
 		{
-			Node<K, V> tmpNode = _tail;
+			ListNode<K, V> tmpNode = _tail;
 			_head = null;
 			_tail = null;
 			
@@ -145,7 +143,7 @@ public class List<K, V>
 			return tmpNode;
 		}
 		
-		Node<K, V> tmpNode = _head;
+		ListNode<K, V> tmpNode = _head;
 		_head = _head.getNext();
 		_numNodes--;
 		
@@ -157,7 +155,7 @@ public class List<K, V>
 	 * 
 	 * @return Node
 	 */
-	public Node<K, V> removeLast()
+	public ListNode<K, V> removeLast()
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
@@ -166,7 +164,7 @@ public class List<K, V>
 		// If the head is the tail, there is only one node left, remove it.
 		if (_head == _tail)
 		{
-			Node<K, V> tmpNode = _tail;
+			ListNode<K, V> tmpNode = _tail;
 			_head = null;
 			_tail = null;
 			
@@ -174,10 +172,10 @@ public class List<K, V>
 			return tmpNode;
 		}
 		
-		Node<K, V> tmpNode = _tail;
+		ListNode<K, V> tmpNode = _tail;
 		
 		// Get the node before the tail.
-		Node<K, V> currNode = _head;
+		ListNode<K, V> currNode = _head;
 		while (currNode.getNext() != _tail)
 		{
 			currNode = currNode.getNext();
@@ -196,12 +194,21 @@ public class List<K, V>
 	 */
 	public void print()
 	{
-		Node<K, V> currNode = _head;
+		ListNode<K, V> currNode = _head;
 		while (currNode != null)
 		{
 			System.out.println(currNode);
 			currNode = currNode.getNext();
 		}
+	}
+	
+	/** 
+	 * Clears the list.
+	 */
+	public void clear()
+	{
+		while(_numNodes > 0)
+			removeLast();
 	}
 	
 	/**
@@ -229,9 +236,9 @@ public class List<K, V>
 		List<Integer, Integer> list = new List<Integer, Integer>();
 		
 		// Insertion usage
-		list.add(new Node<Integer, Integer>(0, 10));
-		list.add(new Node<Integer, Integer>(1, 20));
-		list.add(new Node<Integer, Integer>(2, 30));
+		list.add(new ListNode<Integer, Integer>(0, 10));
+		list.add(new ListNode<Integer, Integer>(1, 20));
+		list.add(new ListNode<Integer, Integer>(2, 30));
 		// Or
 		list.add(3, 40);
 		list.add(4, 50);
@@ -243,5 +250,10 @@ public class List<K, V>
 		// Deletion usage
 		System.out.println("Removing first node: " + list.removeFirst());
 		System.out.println("Removing last node : " + list.removeLast());
+		
+		// Clear list
+		//list.clear();
+		
+		System.out.println("List size: " + list.size());
 	}
 }

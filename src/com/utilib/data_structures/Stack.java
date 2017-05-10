@@ -5,19 +5,19 @@ import java.util.NoSuchElementException;
 
 public class Stack<K, V>
 {
-	private Node<K, V>	_firstNode;
-	private Node<K, V>	_lastNode;
-	private int			_numNodes = 0;
+	private StackNode<K, V> _firstNode;
+	private StackNode<K, V> _lastNode;
+	private int _numNodes = 0;
 	
 	public Stack()
 	{
 		_firstNode = null;
 	}
 	
-	public Stack(Node<K, V> node)
+	public Stack(StackNode<K, V> node)
 	{
-		_firstNode	= node;
-		_lastNode	= _firstNode;
+		_firstNode = node;
+		_lastNode = _firstNode;
 		
 		_numNodes++;
 	}
@@ -27,19 +27,34 @@ public class Stack<K, V>
 	 * 
 	 * @param node
 	 */
-	public void push(final Node<K, V> node)
+	public void push(final StackNode<K, V> node)
+	{
+		StackNode<K, V> tmpNode = _lastNode;
+		_lastNode = node;
+		_lastNode.setNext(tmpNode);
+		_numNodes++;
+	}
+	
+	/**
+	 * Inserts a node into the stack.
+	 * 
+	 * @param node
+	 */
+	public void push(final K key, final V value)
 	{
 		// If the stack is empty, push the new node to it
 		if (isEmpty())
 		{
-			_firstNode	= node;
-			_lastNode	= _firstNode;
-
+			StackNode<K, V> node = new StackNode<K, V>(key, value);
+			_firstNode = node;
+			_lastNode = _firstNode;
+			
 			_numNodes++;
 			return;
 		}
 		
-		Node<K, V> tmpNode = _lastNode;
+		StackNode<K, V> node = new StackNode<K, V>(key, value);
+		StackNode<K, V> tmpNode = _lastNode;
 		_lastNode = node;
 		_lastNode.setNext(tmpNode);
 		_numNodes++;
@@ -50,16 +65,17 @@ public class Stack<K, V>
 	 * 
 	 * @return Node
 	 */
-	public Node<K, V> pop()
+	public StackNode<K, V> pop()
 	{
 		// If the stack is empty, throw error
 		if (isEmpty())
 			throw new NoSuchElementException("Stack underflow");
 		
-		Node<K, V> tmpNode = _lastNode;
-		_lastNode = tmpNode.getNext();
+		StackNode<K, V> tmpNode = _lastNode;
+		_lastNode = _lastNode.getNext();
 		_numNodes--;
 		
+		System.out.println(size());
 		return tmpNode;
 	}
 	
@@ -68,7 +84,7 @@ public class Stack<K, V>
 	 * 
 	 * @return
 	 */
-	public Node<K, V> peek()
+	public StackNode<K, V> peek()
 	{
 		if (isEmpty())
 			throw new NoSuchElementException("Stack underflow");
@@ -81,15 +97,15 @@ public class Stack<K, V>
 	 * 
 	 * @return
 	 */
-	public ArrayList<Node<K, V>> toList()
+	public ArrayList<StackNode<K, V>> toList()
 	{
 		// If the stack is empty there is nothing to iterate.
 		if (isEmpty())
 			return null;
 		
 		// Iterate the nodes of the stack and add them to a list to iterate
-		ArrayList<Node<K, V>> list = new ArrayList<Node<K, V>>();
-		Node<K, V> tmp = _lastNode;
+		ArrayList<StackNode<K, V>> list = new ArrayList<StackNode<K, V>>();
+		StackNode<K, V> tmp = _lastNode;
 		
 		while (tmp != null)
 		{
@@ -98,6 +114,15 @@ public class Stack<K, V>
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * Clears the stack.
+	 */
+	public void clear()
+	{
+		while (_numNodes > 0)
+			pop();
 	}
 	
 	/**
@@ -120,21 +145,24 @@ public class Stack<K, V>
 		return _numNodes;
 	}
 	
-
-	
 	public static void main(String[] args)
 	{
 		Stack<Integer, Integer> stack = new Stack<Integer, Integer>();
 		
 		// Insertion usage
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 50; i++)
 		{
-			stack.push(new Node<Integer, Integer>(i, i));
+			stack.push(new StackNode<Integer, Integer>(i, i));
+		}
+		
+		// Or
+		for (int i = 50; i < 100; i++)
+		{
+			stack.push(i, i);
 		}
 		
 		// Print usage
-		stack.toList().forEach((e)->
-		{
+		stack.toList().forEach((e) -> {
 			System.out.println(e);
 		});
 		
@@ -143,5 +171,10 @@ public class Stack<K, V>
 		{
 			System.out.println(stack.pop());
 		}
+		
+		// Or to clear the stack in one go.
+		// stack.clear();
+		
+		System.out.println("Stack size: " + stack.size());
 	}
 }
