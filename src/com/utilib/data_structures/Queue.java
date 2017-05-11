@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 
 public class Queue<K, V>
 {
-	private QueueNode<K, V> _firstNode;
-	private QueueNode<K, V> _lastNode;
+	private Node<K, V> _firstNode;
+	private Node<K, V> _lastNode;
 	private int _numNodes = 0;
 	private boolean _allowDuplicates = true;
 	
@@ -18,8 +18,9 @@ public class Queue<K, V>
 		_lastNode = null;
 	}
 	
-	public Queue(final QueueNode<K, V> node, final boolean allowDuplicates)
+	public Queue(final K key, final V value, final boolean allowDuplicates)
 	{
+		Node<K, V> node = new Node<K, V>(key, value);
 		_allowDuplicates = allowDuplicates;
 		
 		_firstNode = node;
@@ -28,42 +29,7 @@ public class Queue<K, V>
 	}
 	
 	/**
-	 * Inserts the {@code node} into the queue.
-	 * 
-	 * @param node
-	 * @return boolean
-	 */
-	public boolean insert(final QueueNode<K, V> node)
-	{
-		// If the queue is empty, initialize first and last nodes.
-		if (isEmpty())
-		{
-			_firstNode = node;
-			_lastNode = node;
-			_numNodes++;
-			
-			return true;
-		}
-		
-		if (!_allowDuplicates)
-		{
-			if (searchDuplicate(node.getKey()))
-			{
-				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
-				return false;
-			}
-		}
-		
-		QueueNode<K, V> tmpNode = _lastNode;
-		tmpNode.setPrevious(node);
-		_lastNode = node;
-		_numNodes++;
-		
-		return true;
-	}
-	
-	/**
-	 * Inserts the {@code node} into the queue.
+	 * Inserts the key-value pair into the queue.
 	 * 
 	 * @param node
 	 * @return boolean
@@ -73,7 +39,7 @@ public class Queue<K, V>
 		// If the queue is empty, initialize first and last nodes.
 		if (isEmpty())
 		{
-			QueueNode<K, V> node = new QueueNode<K, V>(key, value);
+			Node<K, V> node = new Node<K, V>(key, value);
 			_firstNode = node;
 			_lastNode = node;
 			_numNodes++;
@@ -90,8 +56,8 @@ public class Queue<K, V>
 			}
 		}
 		
-		QueueNode<K, V> node = new QueueNode<K, V>(key, value);
-		QueueNode<K, V> tmpNode = _lastNode;
+		Node<K, V> node = new Node<K, V>(key, value);
+		Node<K, V> tmpNode = _lastNode;
 		tmpNode.setPrevious(node);
 		_lastNode = node;
 		_numNodes++;
@@ -102,29 +68,29 @@ public class Queue<K, V>
 	/**
 	 * Removes and returns the first node off the queue.
 	 * 
-	 * @return Node
+	 * @return V
 	 */
-	public QueueNode<K, V> remove()
+	public V remove()
 	{
 		// If the queue is empty, throw exception.
 		if (isEmpty())
 			throw new NoSuchElementException("Queue underflow");
 		
-		QueueNode<K, V> tmpNode = _firstNode;
+		Node<K, V> tmpNode = _firstNode;
 		_firstNode = tmpNode.getPrevious();
 		_numNodes--;
 		
-		return tmpNode;
+		return tmpNode.getValue();
 	}
 	
 	/**
 	 * Returns the first node that was inserted into the Queue.
 	 * 
-	 * @return Node
+	 * @return V
 	 */
-	public QueueNode<K, V> peek()
+	public V peek()
 	{
-		return _firstNode;
+		return _firstNode.getValue();
 	}
 	
 	/**
@@ -135,7 +101,7 @@ public class Queue<K, V>
 	 */
 	private boolean searchDuplicate(final K key)
 	{
-		QueueNode<K, V> currNode = _firstNode;
+		Node<K, V> currNode = _firstNode;
 		
 		while (currNode != null)
 		{
@@ -152,15 +118,15 @@ public class Queue<K, V>
 	 * 
 	 * @return
 	 */
-	public ArrayList<QueueNode<K, V>> toList()
+	public ArrayList<Node<K, V>> toList()
 	{
 		// If the stack is empty there is nothing to iterate.
 		if (isEmpty())
 			return null;
 		
 		// Iterate the nodes of the stack and add them to a list to iterate
-		ArrayList<QueueNode<K, V>> list = new ArrayList<QueueNode<K, V>>();
-		QueueNode<K, V> tmp = _firstNode;
+		ArrayList<Node<K, V>> list = new ArrayList<Node<K, V>>();
+		Node<K, V> tmp = _firstNode;
 		
 		while (tmp != null)
 		{
@@ -200,17 +166,64 @@ public class Queue<K, V>
 		return _numNodes;
 	}
 	
+	private class Node<K, V>
+	{
+		private Node<K, V> _previous;
+		private K _key;
+		private V _value;
+		
+		public Node(final K key, final V value)
+		{
+			setKey(key);
+			setValue(value);
+			
+			_previous = null;
+		}
+		
+		public V getValue()
+		{
+			return _value;
+		}
+		
+		public void setValue(V value)
+		{
+			_value = value;
+		}
+		
+		public K getKey()
+		{
+			return _key;
+		}
+		
+		public void setKey(K _key)
+		{
+			this._key = _key;
+		}
+		
+		public void setPrevious(final Node<K, V> node)
+		{
+			_previous = node;
+		}
+		
+		public Node<K, V> getPrevious()
+		{
+			return _previous;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return "Key " + _key + " Value: " + _value + " Previous: " + System.identityHashCode(_previous);
+			
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		Queue<Integer, Integer> queue = new Queue<Integer, Integer>(true);
 		
 		// Insertion usage
-		for (int i = 0; i < 50; i++)
-		{
-			queue.insert(new QueueNode<Integer, Integer>(i, i));
-		}
-		// Or
-		for (int i = 50; i < 100; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			queue.insert(i, i);
 		}

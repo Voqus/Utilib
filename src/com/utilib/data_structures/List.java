@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 
 public class List<K, V>
 {
-	private ListNode<K, V> 	_head;
-	private ListNode<K, V> 	_tail;
+	private Node<K, V> 	_head;
+	private Node<K, V> 	_tail;
 	private int 		_numNodes = 0;
 	private boolean		_allowDuplicates = true;
 	
@@ -17,47 +17,14 @@ public class List<K, V>
 		_tail = null;
 	}
 	
-	public List(final ListNode<K, V> node, final boolean allowDuplicates)
+	public List(final K key, final V value, final boolean allowDuplicates)
 	{
+		Node<K, V> node = new Node<K,V>(key, value);
 		_allowDuplicates = allowDuplicates;
 		_head = node;
 		_tail = node;
 		
 		_numNodes++;
-	}
-	
-	/**
-	 * Adds a node to the list.
-	 * 
-	 * @param node
-	 * @return boolean
-	 */
-	public boolean add(final ListNode<K, V> node)
-	{
-		// If the list is empty, initialize the head and tail nodes.
-		if (isEmpty())
-		{
-			_head = node;
-			_tail = node;
-			
-			_numNodes++;
-			return true;
-		}
-		
-		if(!_allowDuplicates)
-		{
-			if(searchDuplicates(node.getKey()))
-			{
-				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
-				return false;
-			}
-		}
-		
-		_tail.setNext(node);
-		_tail = node;
-		
-		_numNodes++;
-		return true;
 	}
 	
 	/**
@@ -72,7 +39,7 @@ public class List<K, V>
 		// If the list is empty, initialize the head and tail nodes.
 		if (isEmpty())
 		{
-			ListNode<K, V> node = new ListNode<K, V>(key, value);
+			Node<K, V> node = new Node<K, V>(key, value);
 			_head = node;
 			_tail = node;
 			
@@ -89,7 +56,7 @@ public class List<K, V>
 			}
 		}
 		
-		ListNode<K, V> node = new ListNode<K, V>(key, value);
+		Node<K, V> node = new Node<K, V>(key, value);
 		_tail.setNext(node);
 		_tail = node;
 		
@@ -101,22 +68,22 @@ public class List<K, V>
 	 * Searches and returns a node by the key given.
 	 * 
 	 * @param key
-	 * @return Node
+	 * @return V
 	 */
-	public ListNode<K, V> getByKey(final K key)
+	public V getByKey(final K key)
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
 			throw new NoSuchElementException("List is empty.");
 		
 		// Iterate through the list to find the node with the key given.
-		ListNode<K, V> curr = _head;
+		Node<K, V> curr = _head;
 		while (curr != null)
 		{
 			if (curr.getKey() != key)
 				curr = curr.getNext();
 			else
-				return curr;
+				return curr.getValue();
 		}
 		
 		return null;
@@ -126,22 +93,22 @@ public class List<K, V>
 	 * Searches and returns a node by the value given.
 	 * 
 	 * @param value
-	 * @return Node
+	 * @return K
 	 */
-	public ListNode<K, V> getByValue(final V value)
+	public K getByValue(final V value)
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
 			throw new NoSuchElementException("List is empty.");
 		
 		// Iterate through the list to find the node with the value given.
-		ListNode<K, V> curr = _head;
+		Node<K, V> curr = _head;
 		while (curr != null)
 		{
 			if (curr.getValue() != value)
 				curr = curr.getNext();
 			else
-				return curr;
+				return curr.getKey();
 		}
 		
 		return null;
@@ -152,7 +119,7 @@ public class List<K, V>
 	 * 
 	 * @return
 	 */
-	public ListNode<K, V> removeFirst()
+	public V removeFirst()
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
@@ -161,19 +128,19 @@ public class List<K, V>
 		// If the head is the tail, there is only one node left, remove it.
 		if (_head == _tail)
 		{
-			ListNode<K, V> tmpNode = _tail;
+			Node<K, V> tmpNode = _tail;
 			_head = null;
 			_tail = null;
 			
 			_numNodes--;
-			return tmpNode;
+			return tmpNode.getValue();
 		}
 		
-		ListNode<K, V> tmpNode = _head;
+		Node<K, V> tmpNode = _head;
 		_head = _head.getNext();
 		_numNodes--;
 		
-		return tmpNode;
+		return tmpNode.getValue();
 	}
 	
 	/**
@@ -181,7 +148,7 @@ public class List<K, V>
 	 * 
 	 * @return Node
 	 */
-	public ListNode<K, V> removeLast()
+	public V removeLast()
 	{
 		// If the list is empty, throw exception.
 		if (isEmpty())
@@ -190,18 +157,18 @@ public class List<K, V>
 		// If the head is the tail, there is only one node left, remove it.
 		if (_head == _tail)
 		{
-			ListNode<K, V> tmpNode = _tail;
+			Node<K, V> tmpNode = _tail;
 			_head = null;
 			_tail = null;
 			
 			_numNodes--;
-			return tmpNode;
+			return tmpNode.getValue();
 		}
 		
-		ListNode<K, V> tmpNode = _tail;
+		Node<K, V> tmpNode = _tail;
 		
 		// Get the node before the tail.
-		ListNode<K, V> currNode = _head;
+		Node<K, V> currNode = _head;
 		while (currNode.getNext() != _tail)
 		{
 			currNode = currNode.getNext();
@@ -212,7 +179,7 @@ public class List<K, V>
 		_tail.setNext(null);
 		_numNodes--;
 		
-		return tmpNode;
+		return tmpNode.getValue();
 	}
 	
 	/**
@@ -223,7 +190,7 @@ public class List<K, V>
 	 */
 	public boolean searchDuplicates(final K key)
 	{
-		ListNode<K,V> currNode = _head;
+		Node<K,V> currNode = _head;
 		
 		while(currNode != null)
 		{
@@ -240,7 +207,7 @@ public class List<K, V>
 	 */
 	public void print()
 	{
-		ListNode<K, V> currNode = _head;
+		Node<K, V> currNode = _head;
 		while (currNode != null)
 		{
 			System.out.println(currNode);
@@ -277,18 +244,66 @@ public class List<K, V>
 		return _numNodes;
 	}
 	
+	private class Node<K,V>
+	{
+		private Node<K, V> _next;
+		private K _key;
+		private V _value;
+		
+		public Node(final K key, final V value)
+		{
+			setKey(key);
+			setValue(value);
+			
+			_next = null;
+		}
+		
+		public V getValue()
+		{
+			return _value;
+		}
+		
+		public void setValue(V value)
+		{
+			_value = value;
+		}
+		
+		public K getKey()
+		{
+			return _key;
+		}
+		
+		public void setKey(K _key)
+		{
+			this._key = _key;
+		}
+		
+		public void setNext(final Node<K, V> node)
+		{
+			_next = node;
+		}
+		
+		public Node<K, V> getNext()
+		{
+			return _next;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return "Key " + _key + " Value: " + _value + " Next: " + System.identityHashCode(_next);
+			
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		List<Integer, Integer> list = new List<Integer, Integer>(true);
 		
 		// Insertion usage
-		list.add(new ListNode<Integer, Integer>(0, 10));
-		list.add(new ListNode<Integer, Integer>(1, 20));
-		list.add(new ListNode<Integer, Integer>(2, 30));
-		// Or
-		list.add(3, 40);
-		list.add(4, 50);
-		list.add(5, 60);
+		list.add(0, 00);
+		list.add(1, 10);
+		list.add(2, 20);
 		
 		// Printing the list
 		list.print();

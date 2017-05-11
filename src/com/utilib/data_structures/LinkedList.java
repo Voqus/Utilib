@@ -4,10 +4,10 @@ import java.util.NoSuchElementException;
 
 public class LinkedList<K, V>
 {
-	private Node<K, V> 	_head;
-	private Node<K, V> 	_tail;
-	private int 		_numNodes = 0;
-	private boolean		_allowDuplicates = true;
+	private Node<K, V> _head;
+	private Node<K, V> _tail;
+	private int _numNodes = 0;
+	private boolean _allowDuplicates = true;
 	
 	public LinkedList(final boolean allowDuplicates)
 	{
@@ -16,8 +16,9 @@ public class LinkedList<K, V>
 		_tail = null;
 	}
 	
-	public LinkedList(final Node<K, V> node, final boolean allowDuplicates)
+	public LinkedList(final K key, final V value, final boolean allowDuplicates)
 	{
+		Node<K, V> node = new Node<K, V>(key, value);
 		_allowDuplicates = allowDuplicates;
 		_head = node;
 		_tail = node;
@@ -42,9 +43,9 @@ public class LinkedList<K, V>
 			return true;
 		}
 		
-		if(!_allowDuplicates)
+		if (!_allowDuplicates)
 		{
-			if(searchDuplicates(node.getKey()))
+			if (searchDuplicates(node.getKey()))
 			{
 				System.err.println("Duplicate key[" + node.getKey() + "] detected.");
 				return false;
@@ -78,9 +79,9 @@ public class LinkedList<K, V>
 			return true;
 		}
 		
-		if(!_allowDuplicates)
+		if (!_allowDuplicates)
 		{
-			if(searchDuplicates(key))
+			if (searchDuplicates(key))
 			{
 				System.err.println("Duplicate key[" + key + "] detected.");
 				return false;
@@ -236,11 +237,11 @@ public class LinkedList<K, V>
 	 */
 	public boolean searchDuplicates(final K key)
 	{
-		Node<K,V> currNode = _head;
+		Node<K, V> currNode = _head;
 		
-		while(currNode != null)
+		while (currNode != null)
 		{
-			if(currNode.getKey() != key)
+			if (currNode.getKey() != key)
 				currNode = currNode.getNext();
 			else
 				return true;
@@ -296,19 +297,78 @@ public class LinkedList<K, V>
 		return _numNodes;
 	}
 	
+	private class Node<K, V>
+	{
+		private Node<K, V> _next;
+		private Node<K, V> _previous;
+		private K _key;
+		private V _value;
+		
+		public Node(final K key, final V value)
+		{
+			_key = key;
+			_value = value;
+			
+			_next = null;
+			_previous = null;
+		}
+		
+		public K getKey()
+		{
+			return _key;
+		}
+		
+		public void setKey(final K key)
+		{
+			this._key = key;
+		}
+		
+		public V getValue()
+		{
+			return _value;
+		}
+		
+		public void setValue(final V value)
+		{
+			_value = value;
+		}
+		
+		public Node<K, V> getNext()
+		{
+			return _next;
+		}
+		
+		public void setNext(final Node<K, V> next)
+		{
+			_next = next;
+		}
+		
+		public Node<K, V> getPrevious()
+		{
+			return _previous;
+		}
+		
+		public void setPrevious(final Node<K, V> previous)
+		{
+			_previous = previous;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return "Key: " + _key + " Value: " + _value;
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		LinkedList<Integer, Integer> list = new LinkedList<Integer, Integer>(true);
 		
 		// Insertion usage
-		list.add(new Node<Integer, Integer>(0, 0));
-		list.add(new Node<Integer, Integer>(1, 10));
-		list.add(new Node<Integer, Integer>(2, 20));
-		list.add(new Node<Integer, Integer>(3, 30));
-		// Or
-		list.add(4, 40);
-		list.add(5, 50);
-		list.add(6, 60);
+		for (int i = 0; i < 7; i++)
+		{
+			list.add(i, i * 10);
+		}
 		
 		// Printing the list
 		list.print();
