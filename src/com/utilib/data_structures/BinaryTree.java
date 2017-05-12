@@ -30,7 +30,7 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
-	 * Implementation for insertion method on binary tree. 
+	 * Implementation for insertion method on binary tree.
 	 * 
 	 * @param node
 	 * @param nodeToInsert
@@ -52,7 +52,8 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
-	 * Finds a node based on the key provided on a binary tree object recursively.
+	 * Finds a node based on the key provided on a binary tree object
+	 * recursively.
 	 * 
 	 * @param key
 	 * @param value
@@ -97,7 +98,8 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
-	 * Performs pre-order traversal on binary tree while printing the node's contents.
+	 * Performs pre-order traversal on binary tree while printing the node's
+	 * contents.
 	 */
 	public void preOrderTraversal()
 	{
@@ -105,7 +107,8 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
-	 * Performs in-order traversal on binary tree while printing the node's contents.
+	 * Performs in-order traversal on binary tree while printing the node's
+	 * contents.
 	 */
 	public void inOrderTraversal()
 	{
@@ -113,7 +116,8 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
-	 * Performs post-order traversal on binary tree while printing the node's contents.
+	 * Performs post-order traversal on binary tree while printing the node's
+	 * contents.
 	 */
 	public void postOrderTraversal()
 	{
@@ -122,6 +126,7 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	
 	/**
 	 * Implementation for pre-order traversal on binary tree.
+	 * 
 	 * @param node
 	 */
 	private void preOrderTraversal(Node<K, V> node)
@@ -137,7 +142,35 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
+	 * Implementation for pre-order traversal on binary tree, iterative way.
+	 */
+	public void preOrderTraversal_it()
+	{
+		if (_root == null)
+			return;
+		else
+		{
+			Stack<Integer, Node<K, V>> stack = new Stack<Integer, Node<K, V>>(true);
+			Node<K, V> node = _root;
+			
+			int counter = 0;
+			stack.push(counter, node);
+			while (!stack.isEmpty())
+			{
+				node = stack.pop();
+				System.out.println(node);
+				
+				if (node._right != null)
+					stack.push(++counter, node);
+				if (node._left != null)
+					stack.push(++counter, node);
+			}
+		}
+	}
+	
+	/**
 	 * Implementation for in-order traversal on binary tree.
+	 * 
 	 * @param node
 	 */
 	private void inOrderTraversal(Node<K, V> node)
@@ -153,7 +186,33 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 	}
 	
 	/**
+	 * Implementation for in-order traversal on binary tree, iterative way.
+	 */
+	public void inOrderTraversal_it()
+	{
+		Stack<Integer, Node<K, V>> stack = new Stack<Integer, Node<K, V>>(true);
+		Node<K, V> node = _root;
+		
+		int counter = 0;
+		while (!stack.isEmpty() || node != null)
+		{
+			if (node != null)
+			{
+				stack.push(++counter, node);
+				node = node._left;
+			}
+			else
+			{
+				node = stack.pop();
+				System.out.println(node);
+				node = node._right;
+			}
+		}
+	}
+	
+	/**
 	 * Implementation for post-order traversal on binary tree.
+	 * 
 	 * @param node
 	 */
 	private void postOrderTraversal(Node<K, V> node)
@@ -166,6 +225,39 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 			inOrderTraversal(node._right);
 			System.out.println(node);
 		}
+	}
+	
+	/**
+	 * Implementation for post-order traversal on binary tree, iterative way.
+	 */
+	public void postOrderTraversal_it()
+	{
+		
+		Stack<Integer, Node<K, V>> stack = new Stack<Integer, Node<K, V>>(true);
+		Node<K, V> node = null;
+		
+		int counter = 0;
+		while (!stack.isEmpty() || node != null)
+		{
+			if (node != null)
+			{
+				stack.push(++counter, node);
+				node = node._left;
+			}
+			else
+			{
+				Node<K, V> peekNode = stack.peek();
+				
+				if (peekNode._right != null && node != peekNode._right)
+					node = peekNode._right;
+				else
+				{
+					System.out.println(peekNode);
+					node = stack.pop();
+				}
+			}
+		}
+		
 	}
 	
 	/**
@@ -227,13 +319,25 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<V>> implem
 		System.out.println("---- Pre order traversal ----");
 		tree.preOrderTraversal(tree._root);
 		
+		// Pre-order traversal iterative
+		System.out.println("---- Pre order traversal iterative ----");
+		tree.preOrderTraversal();
+		
 		// In-order traversal
 		System.out.println("---- In order traversal ----");
 		tree.inOrderTraversal(tree._root);
 		
+		// In-order traversal iterative
+		System.out.println("---- In order traversal iterative ----");
+		tree.inOrderTraversal();
+		
 		// Post-order traversal
 		System.out.println("---- Post order traversal ----");
 		tree.postOrderTraversal(tree._root);
+		
+		// Post-order traversal iterative
+		System.out.println("---- Post order traversal iterative ----");
+		tree.postOrderTraversal();
 		
 		// Tree size
 		System.out.println("---- Tree Size ----");
