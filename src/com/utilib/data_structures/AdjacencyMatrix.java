@@ -4,18 +4,18 @@ import java.lang.reflect.Array;
 
 public class AdjacencyMatrix<T>
 {
-	private T[][] matrix;
-	private int size;
+	private T[][] 	_matrix;
+	private int 	_size;
 	
 	@SuppressWarnings("unchecked")
-	public AdjacencyMatrix(final Class<T> cls, final int capacity, final T initVal)
+	public AdjacencyMatrix(final Class<T> cls, final int size, final T initVal)
 	{
-		matrix = (T[][]) Array.newInstance(cls, capacity, capacity);
-		size = capacity;
+		_matrix = (T[][]) Array.newInstance(cls, size, size);
+		_size 	= size;
 		
-		for (int y = 0; y < capacity; y++)
-			for (int x = 0; x < capacity; x++)
-				matrix[x][y] = initVal;
+		for (int y = 0; y < size; y++)
+			for (int x = 0; x < size; x++)
+				_matrix[x][y] = initVal;
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class AdjacencyMatrix<T>
 	 */
 	public void setValue(final int x, final int y, final T value)
 	{
-		matrix[x][y] = value;
+		_matrix[x][y] = value;
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class AdjacencyMatrix<T>
 	 */
 	public T getValue(final int x, final int y)
 	{
-		return matrix[x][y];
+		return _matrix[x][y];
 	}
 	
 	/**
@@ -47,11 +47,11 @@ public class AdjacencyMatrix<T>
 	 */
 	public void printMatrix()
 	{
-		for (int y = 0; y < size; y++)
+		for (int y = 0; y < _size; y++)
 		{
-			for (int x = 0; x < size; x++)
+			for (int x = 0; x < _size; x++)
 			{
-				System.out.print("[ " + matrix[x][y] + " ]");
+				System.out.print("[ " + _matrix[x][y] + " ]");
 			}
 			System.out.println();
 		}

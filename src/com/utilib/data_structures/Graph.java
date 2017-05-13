@@ -7,16 +7,16 @@ import com.utilib.data_structures.trees.Node;
 
 public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 {
-	private AdjacencyMatrix<Boolean> adjMatrix;
-	private Node<K, V> vertexList[];
-	private int numVertices = 0;
+	private AdjacencyMatrix<Boolean> 	_adjMatrix;
+	private Node<K, V> 					_vertexList[];
+	private int 						_numVertices = 0;
 	
 	@SuppressWarnings("unchecked")
-	public Graph(final int num)
+	public Graph(final int numVertices)
 	{
-		vertexList = (Node<K, V>[]) Array.newInstance(Node.class, num);
-		adjMatrix = new AdjacencyMatrix<Boolean>(Boolean.class, num, false);
-		numVertices = num;
+		_vertexList 	= (Node<K, V>[]) Array.newInstance(Node.class, numVertices);
+		_adjMatrix 		= new AdjacencyMatrix<Boolean>(Boolean.class, numVertices, false);
+		_numVertices 	= numVertices;
 	}
 	
 	/**
@@ -27,10 +27,10 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void setVertex(final int index, final Node<K, V> node)
 	{
-		if(index >= numVertices)
+		if(index >= _numVertices)
 			throw new NoSuchElementException("You have exceeded the number of vertices.");
 		
-		vertexList[index] = node;
+		_vertexList[index] = node;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public Node<K,V> getVertex(final int index)
 	{
-		return (vertexList[index]);
+		return (_vertexList[index]);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void addUnidirectionalEdge(final int start, final int end)
 	{
-		adjMatrix.setValue(start, end, true);
+		_adjMatrix.setValue(start, end, true);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void removeUnidirectionalEdge(final int start, final int end)
 	{
-		adjMatrix.setValue(start, end, false);
+		_adjMatrix.setValue(start, end, false);
 	}
 	
 	/**
@@ -84,8 +84,8 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void addBidirectionalEdge(final int start, final int end)
 	{
-		adjMatrix.setValue(start, end, true);
-		adjMatrix.setValue(end, start, true);
+		_adjMatrix.setValue(start, end, true);
+		_adjMatrix.setValue(end, start, true);
 	}
 	
 	/**
@@ -96,8 +96,8 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void removeBidirectionalEdge(final int start, final int end)
 	{
-		adjMatrix.setValue(start, end, false);
-		adjMatrix.setValue(end, start, false);
+		_adjMatrix.setValue(start, end, false);
+		_adjMatrix.setValue(end, start, false);
 	}
 	
 	/**
@@ -106,11 +106,19 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	public void print()
 	{
 		System.out.println("---- Vertex List ----");
-		for(int i = 0; i < numVertices; i ++)
-			System.out.println("[ " + vertexList[i] + " ]");
+		for(int i = 0; i < _numVertices; i ++)
+			System.out.println("[ " + _vertexList[i] + " ]");
 		
 		System.out.println("\n---- Adjacency Matrix ----");
-		adjMatrix.printMatrix();
+		_adjMatrix.printMatrix();
+	}
+	
+	/**
+	 * Returns the size of the graph.
+	 */
+	public int size()
+	{
+		return _numVertices;
 	}
 	
 	public static void main(String[] args)
