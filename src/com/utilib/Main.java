@@ -1,5 +1,9 @@
 package com.utilib;
 
+import java.util.Random;
+
+import com.utilib.algorithms.sorting.BubbleSort;
+import com.utilib.algorithms.sorting.QuickSort;
 import com.utilib.data_structures.LinkedList;
 import com.utilib.data_structures.List;
 import com.utilib.data_structures.Queue;
@@ -14,6 +18,20 @@ public class Main
 		Timer.calculateExecutionTime(() -> stackInsertionTest(500000, true));
 		Timer.calculateExecutionTime(() -> listInsertionTest(500000, true));
 		Timer.calculateExecutionTime(() -> linkedListInsertionTest(500000, true));
+		
+		
+		// Initialize a random array
+		int N = 100000;			// array capacity
+		int numRange = 1000;	// range for random number generation
+		
+		Integer[] array = new Integer[N];
+		for (int i = 0; i < N; i++)
+			array[i] = new Random().nextInt(numRange);
+		
+		// Sorting algorithms
+		System.out.println("\n---- Sorting algorithms ----");
+		Timer.calculateExecutionTime(() -> bubbleSortTest(array, N));
+		Timer.calculateExecutionTime(() -> quickSortTest(array, N));
 	}
 	
 	/**
@@ -82,5 +100,23 @@ public class Main
 			list.add(i, i);
 		
 		return list;
+	}
+	
+	private static <T> BubbleSort<?> bubbleSortTest(final T[] array, final int insertionNum)
+	{
+		BubbleSort<Integer> bubbleSort = new BubbleSort<Integer>(Integer.class, insertionNum);
+
+		bubbleSort.setArray((Integer[]) array);
+		bubbleSort.sort();
+		return bubbleSort;
+	}
+	
+	private static <T> QuickSort<?> quickSortTest(final T[] array, final int insertionNum)
+	{
+		QuickSort<Integer> qSort = new QuickSort<Integer>(Integer.class, insertionNum);
+
+		qSort.setArray((Integer[]) array);
+		qSort.sort(0, array.length - 1);
+		return qSort;
 	}
 }

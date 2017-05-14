@@ -91,7 +91,7 @@ public class BubbleSort<T extends Comparable<T>> implements Comparator<T>
 	 * @param index
 	 * @param index2
 	 */
-	public void swap(T[] array, int index, int index2)
+	private void swap(T[] array, int index, int index2)
 	{
 		T temp = array[index];
 		array[index] = array[index2];
