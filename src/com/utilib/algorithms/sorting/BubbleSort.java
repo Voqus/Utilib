@@ -49,6 +49,9 @@ public class BubbleSort<T extends Comparable<T>> implements Comparator<T>
 	 */
 	public void sort()
 	{
+		if (_size - 1 <= 1 || _array[0] == null)
+			return;
+		
 		for (int j = 1; j < _size; j++)
 		{
 			for (int i = 0; i < _size - j; i++)
@@ -67,6 +70,9 @@ public class BubbleSort<T extends Comparable<T>> implements Comparator<T>
 	 */
 	public static <T extends Comparable<T>> T[] sort(T[] array)
 	{
+		if (array.length - 1 <= 1 || array[0] == null)
+			return null;
+		
 		int size = array.length;
 		for (int j = 1; j < size; j++)
 		{
@@ -104,9 +110,8 @@ public class BubbleSort<T extends Comparable<T>> implements Comparator<T>
 	public void print()
 	{
 		for (int i = 0; i < _size; i++)
-		{
-			System.out.println(_array[i]);
-		}
+			System.out.print(_array[i] + " ");
+		System.out.println();
 	}
 	
 	@Override
@@ -118,28 +123,36 @@ public class BubbleSort<T extends Comparable<T>> implements Comparator<T>
 	public static void main(String[] args)
 	{
 		BubbleSort<Integer> bubbleSort = new BubbleSort<Integer>(Integer.class, 5);
-		// Insertion usage
-		// bubbleSort.add(new Integer(0));
-		// bubbleSort.add(new Integer(1));
-		// bubbleSort.add(new Integer(2));
-		// bubbleSort.add(new Integer(3));
-		// bubbleSort.add(new Integer(4));
 		
-		// Or set your own array
+		// Insertion usage
+		System.out.println("---- Adding one by one in the array ----");
+		bubbleSort.add(new Integer(2));
+		bubbleSort.add(new Integer(3));
+		bubbleSort.add(new Integer(4));
+		bubbleSort.add(new Integer(1));
+		bubbleSort.add(new Integer(0));
+		
+		bubbleSort.sort();
+		bubbleSort.print();
+		
+		// Or set your own array : sort & print
+		System.out.println("---- Passing the array to the object to sort ----");
 		Integer[] arr = new Integer[] { 0, 5, 5, 40, 3, 4, 92, 34, 55, 22, 11 };
 		bubbleSort.setArray(arr);
-		
-		// Sort & print
 		bubbleSort.sort();
 		bubbleSort.print();
 		
 		// Example with static sort usage
-		// Integer[] arr = new Integer[] { 0, 5, 5, 40, 3, 4, 92, 34, 55, 22, 11 };
-		// BubbleSort.sort(arr);
+		System.out.println("---- Sorting the array the static way ----");
+		for (int i = 0; i < arr.length; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
+		BubbleSort.sort(arr);
 		
 		// Print the array
-		// for (int i = 0; i < arr.length; i++)
-		// 		System.out.println(arr[i]);
+		for (int i = 0; i < arr.length; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
 		
 	}
 }

@@ -22,7 +22,7 @@ public class Timer
 			methodTask 		 = method.call();
 			long timeEnded	 = System.nanoTime();
 			double totalTime = (double)(timeEnded - timeStarted) / 1000000000.0;
-			System.out.println("Total time for execution of method: " + totalTime + " seconds.");
+			System.out.println(totalTime + "	seconds.");
 		}
 		catch(Exception e)
 		{

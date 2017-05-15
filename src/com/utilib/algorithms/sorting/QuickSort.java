@@ -45,10 +45,21 @@ public class QuickSort<T extends Comparable<T>> implements Comparator<T>
 	}
 	
 	/**
+	 * Sorts the entire array provided from start to finish.
+	 */
+	public void sort()
+	{
+		sort(0, _size - 1);
+	}
+	
+	/**
 	 * Sorts the array using quick sort.
 	 */
 	public void sort(int low, int high)
 	{
+		if (_size - 1 <= 1 || _array[0] == null)
+			return;
+		
 		if (low < high)
 		{
 			int partition = partition(low, high);
@@ -105,6 +116,9 @@ public class QuickSort<T extends Comparable<T>> implements Comparator<T>
 	 */
 	public static <T extends Comparable<T>> T[] sort(T[] array, int low, int high)
 	{
+		if (array.length - 1 <= 1 || array[0] == null)
+			return null;
+		
 		if (low < high)
 		{
 			int partition = partition(array, low, high);
@@ -153,10 +167,9 @@ public class QuickSort<T extends Comparable<T>> implements Comparator<T>
 	 */
 	public void print()
 	{
-		for (int i = 0; i < _size; i++)
-		{
-			System.out.println(_array[i]);
-		}
+		for (int i = 0; i < _array.length; i++)
+			System.out.print(_array[i] + " ");
+		System.out.println();
 	}
 	
 	@Override
@@ -169,28 +182,35 @@ public class QuickSort<T extends Comparable<T>> implements Comparator<T>
 	{
 		QuickSort<Integer> qSort = new QuickSort<Integer>(Integer.class, 5);
 		// Insertion usage
-		qSort.add(new Integer(0));
-		qSort.add(new Integer(1));
-		qSort.add(new Integer(2));
-		qSort.add(new Integer(3));
+		System.out.println("---- Adding one by one in the array ----");
 		qSort.add(new Integer(4));
+		qSort.add(new Integer(3));
+		qSort.add(new Integer(2));
+		qSort.add(new Integer(1));
+		qSort.add(new Integer(0));
 		
-		// // Or set your own array
+		qSort.sort();
+		qSort.print();
+		
+		// Or set your own array & print
+		System.out.println("---- Passing the array to the object to sort ----");
 		Integer[] arr = new Integer[] { 0, 5, 5, 40, 3, 4, 92, 34, 55, 22, 11 };
 		qSort.setArray(arr);
-		
-		// // Sort & print
-		qSort.sort(0, arr.length - 1);
+		qSort.sort();
 		qSort.print();
 		
 		// Example with static sort usage
-		// Integer[] arr = new Integer[] { 0, 5, 5, 40, 3, 4, 92, 34, 55, 22, 11
-		// };
-		// QuickSort.sort(arr, 0, arr.length - 1);
+		System.out.println("---- Sorting the array the static way ----");
+		for (int i = 0; i < arr.length; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
+		
+		QuickSort.sort(arr, 0, arr.length - 1);
 		
 		// Print the array
-		// for (int i = 0; i < arr.length; i++)
-		// System.out.println(arr[i]);
+		for (int i = 0; i < arr.length; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
 	}
 	
 }

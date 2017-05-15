@@ -3,6 +3,7 @@ package com.utilib;
 import java.util.Random;
 
 import com.utilib.algorithms.sorting.BubbleSort;
+import com.utilib.algorithms.sorting.MergeSort;
 import com.utilib.algorithms.sorting.QuickSort;
 import com.utilib.data_structures.LinkedList;
 import com.utilib.data_structures.List;
@@ -14,15 +15,19 @@ public class Main
 {
 	public static void main(String[] args)
 	{
+		System.out.println("---- Data structures insertion----");
+		System.out.print("Queue insertion:		");
 		Timer.calculateExecutionTime(() -> queueInsertionTest(500000, true));
+		System.out.print("Stack insertion:		");
 		Timer.calculateExecutionTime(() -> stackInsertionTest(500000, true));
+		System.out.print("Single-linked list insertion:	");
 		Timer.calculateExecutionTime(() -> listInsertionTest(500000, true));
+		System.out.print("Double-linked list insertion:	");
 		Timer.calculateExecutionTime(() -> linkedListInsertionTest(500000, true));
 		
-		
 		// Initialize a random array
-		int N = 100000;			// array capacity
-		int numRange = 1000;	// range for random number generation
+		int N = 100000; 	 // array capacity
+		int numRange = 1000; // range for random number generation
 		
 		Integer[] array = new Integer[N];
 		for (int i = 0; i < N; i++)
@@ -30,8 +35,12 @@ public class Main
 		
 		// Sorting algorithms
 		System.out.println("\n---- Sorting algorithms ----");
+		System.out.print("BubbleSort:	");
 		Timer.calculateExecutionTime(() -> bubbleSortTest(array, N));
+		System.out.print("QuickSort:	");
 		Timer.calculateExecutionTime(() -> quickSortTest(array, N));
+		System.out.print("MergeSort:	");
+		Timer.calculateExecutionTime(() -> mergeSortTest(array, N));
 	}
 	
 	/**
@@ -105,7 +114,7 @@ public class Main
 	private static <T> BubbleSort<?> bubbleSortTest(final T[] array, final int insertionNum)
 	{
 		BubbleSort<Integer> bubbleSort = new BubbleSort<Integer>(Integer.class, insertionNum);
-
+		
 		bubbleSort.setArray((Integer[]) array);
 		bubbleSort.sort();
 		return bubbleSort;
@@ -114,9 +123,17 @@ public class Main
 	private static <T> QuickSort<?> quickSortTest(final T[] array, final int insertionNum)
 	{
 		QuickSort<Integer> qSort = new QuickSort<Integer>(Integer.class, insertionNum);
-
+		
 		qSort.setArray((Integer[]) array);
-		qSort.sort(0, array.length - 1);
+		qSort.sort();
 		return qSort;
+	}
+	
+	private static <T> MergeSort<?> mergeSortTest(final T[] array, final int insertionNum)
+	{
+		MergeSort<Integer> mSort = new MergeSort<Integer>(Integer.class, insertionNum);
+		mSort.setArray((Integer[]) array);
+		mSort.sort();
+		return mSort;
 	}
 }
