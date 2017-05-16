@@ -3,19 +3,19 @@ package com.utilib.algorithms.sorting;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class InsertionSort<T extends Comparable<T>>
+public class SelectionSort<T extends Comparable<T>>
 {
-	private T[] _array;
-	private int _size;
-	private int _index = 0;
+	private T[]	_array;
+	private int	_size;
+	private int	_index	= 0;
 	
 	@SuppressWarnings("unchecked")
-	public InsertionSort(final Class<T> cls, final int size)
+	public SelectionSort(final Class<T> cls, final int size)
 	{
-		_array 	= (T[]) Array.newInstance(cls, size);
-		_size 	= size;
+		_array = (T[]) Array.newInstance(cls, size);
+		_size = size;
 		
-		// Initialize array
+		// Initialize the array
 		for (int i = 0; i < size; i++)
 			_array[i] = null;
 	}
@@ -27,8 +27,8 @@ public class InsertionSort<T extends Comparable<T>>
 	 */
 	public void setArray(final T[] array)
 	{
-		_array 	= Arrays.copyOf(array, array.length);
-		_size 	= array.length;
+		_array = Arrays.copyOf(array, array.length);
+		_size = array.length;
 	}
 	
 	/**
@@ -44,27 +44,29 @@ public class InsertionSort<T extends Comparable<T>>
 	}
 	
 	/**
-	 * Sorts the array using insertion sort.
+	 * Sorts the array using selection sort.
 	 */
 	public void sort()
 	{
 		if (_array.length - 1 <= 1 || _array[0] == null)
 			return;
 		
-		int j = 0;
-		for (int i = 1; i < _size; i++)
+		for (int j = 0; j < _size - 1; j++)
 		{
-			j = i;
-			while (j > 0 && _array[j - 1].compareTo(_array[j]) > 0)
+			int min = j;
+			
+			for (int i = j + 1; i < _size; i++)
 			{
-				swap(_array, j, j - 1);
-				j = j - 1;
+				if (_array[i].compareTo(_array[min]) < 0)
+					min = i;
 			}
+			if (min != j)
+				swap(_array, j, min);
 		}
 	}
 	
 	/**
-	 * Swaps the two elements in the array provided.
+	 * Swaps two elements in the array provided.
 	 * 
 	 * @param array
 	 * @param index
@@ -72,13 +74,13 @@ public class InsertionSort<T extends Comparable<T>>
 	 */
 	private void swap(final T[] array, final int index, final int index2)
 	{
-		T temp 			= array[index];
-		array[index] 	= array[index2];
-		array[index2] 	= temp;
+		T temp = array[index];
+		array[index] = array[index2];
+		array[index2] = temp;
 	}
 	
 	/**
-	 * Sorts the array provided using insertion sort.
+	 * Sorts the array using selection sort.
 	 * 
 	 * @param array
 	 */
@@ -87,17 +89,21 @@ public class InsertionSort<T extends Comparable<T>>
 		if (array.length - 1 <= 1 || array[0] == null)
 			return null;
 		
-		int j = 0;
-		for (int i = 1; i < array.length; i++)
+		int size = array.length;
+		for (int j = 0; j < size - 1; j++)
 		{
-			j = i;
-			while (j > 0 && array[j - 1].compareTo(array[j]) > 0)
+			int min = j;
+			
+			for (int i = j + 1; i < size; i++)
 			{
-				T temp 			= array[j];
-				array[j] 		= array[j - 1];
-				array[j - 1] 	= temp;
-				
-				j = j - 1;
+				if (array[i].compareTo(array[min]) < 0)
+					min = i;
+			}
+			if (min != j)
+			{
+				T temp = array[j];
+				array[j] = array[min];
+				array[min] = temp;
 			}
 		}
 		
@@ -109,32 +115,32 @@ public class InsertionSort<T extends Comparable<T>>
 	 */
 	public void print()
 	{
-		for (int i = 0; i < _size; ++i)
+		for (int i = 0; i < _array.length; i++)
 			System.out.print(_array[i] + " ");
 		System.out.println();
 	}
 	
 	public static void main(String[] args)
 	{
-		InsertionSort<Integer> inSort = new InsertionSort<Integer>(Integer.class, 5);
+		SelectionSort<Integer> sSort = new SelectionSort<Integer>(Integer.class, 5);
 		// Insertion usage
 		System.out.println("---- Adding one by one in the array ----");
-		inSort.add(new Integer(4));
-		inSort.add(new Integer(3));
-		inSort.add(new Integer(2));
-		inSort.add(new Integer(1));
-		inSort.add(new Integer(0));
+		sSort.add(new Integer(4));
+		sSort.add(new Integer(3));
+		sSort.add(new Integer(2));
+		sSort.add(new Integer(1));
+		sSort.add(new Integer(0));
 		
 		// Sort array & print
-		inSort.sort();
-		inSort.print();
+		sSort.sort();
+		sSort.print();
 		
 		// Or provide your own array : sort & print
 		System.out.println("---- Passing the array to the object to sort ----");
 		Integer[] arr = { 0, 5, 5, 40, 3, 4, 92, 34, 55, 22, 11 };
-		inSort.setArray(arr);
-		inSort.sort();
-		inSort.print();
+		sSort.setArray(arr);
+		sSort.sort();
+		sSort.print();
 		
 		// Static sort array & print
 		System.out.println("---- Sorting the array the static way ----");
@@ -142,11 +148,12 @@ public class InsertionSort<T extends Comparable<T>>
 			System.out.print(arr[i] + " ");
 		System.out.println();
 		
-		InsertionSort.sort(arr);
+		SelectionSort.sort(arr);
 		
 		for (int i = 0; i < arr.length; i++)
 			System.out.print(arr[i] + " ");
 		System.out.println();
 		
 	}
+	
 }

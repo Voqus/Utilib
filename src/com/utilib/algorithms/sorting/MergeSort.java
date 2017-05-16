@@ -129,10 +129,10 @@ public class MergeSort<T extends Comparable<T>>
 	 * @param left
 	 * @param right
 	 */
-	public static <T extends Comparable<T>> void sort(final Class<T> cls, T[] array, int left, int right)
+	public static <T extends Comparable<T>> T[] sort(final Class<T> cls, T[] array, int left, int right)
 	{
 		if (array.length - 1 <= 1 || array[0] == null)
-			return;
+			return null;
 		
 		if (left < right)
 		{
@@ -143,6 +143,8 @@ public class MergeSort<T extends Comparable<T>>
 			
 			merge(cls, array, left, m, right);
 		}
+		
+		return array;
 	}
 	
 	/**

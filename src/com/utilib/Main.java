@@ -6,6 +6,7 @@ import com.utilib.algorithms.sorting.BubbleSort;
 import com.utilib.algorithms.sorting.InsertionSort;
 import com.utilib.algorithms.sorting.MergeSort;
 import com.utilib.algorithms.sorting.QuickSort;
+import com.utilib.algorithms.sorting.SelectionSort;
 import com.utilib.data_structures.LinkedList;
 import com.utilib.data_structures.List;
 import com.utilib.data_structures.Queue;
@@ -44,6 +45,8 @@ public class Main
 		Timer.calculateExecutionTime(() -> mergeSortTest(array, N));
 		System.out.print("InsertionSort:	");
 		Timer.calculateExecutionTime(() -> insertionSortTest(array, N));
+		System.out.print("SelectionSort:	");
+		Timer.calculateExecutionTime(() -> selectionSortTest(array, N));
 	}
 	
 	/**
@@ -114,6 +117,13 @@ public class Main
 		return list;
 	}
 	
+	/**
+	 * A bubble sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return BubbleSort
+	 */
 	private static <T> BubbleSort<?> bubbleSortTest(final T[] array, final int insertionNum)
 	{
 		BubbleSort<Integer> bubbleSort = new BubbleSort<Integer>(Integer.class, insertionNum);
@@ -123,6 +133,13 @@ public class Main
 		return bubbleSort;
 	}
 	
+	/**
+	 * A quick sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return QuickSort
+	 */
 	private static <T> QuickSort<?> quickSortTest(final T[] array, final int insertionNum)
 	{
 		QuickSort<Integer> qSort = new QuickSort<Integer>(Integer.class, insertionNum);
@@ -132,6 +149,13 @@ public class Main
 		return qSort;
 	}
 	
+	/**
+	 * A merge sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return MergeSort
+	 */
 	private static <T> MergeSort<?> mergeSortTest(final T[] array, final int insertionNum)
 	{
 		MergeSort<Integer> mSort = new MergeSort<Integer>(Integer.class, insertionNum);
@@ -140,11 +164,33 @@ public class Main
 		return mSort;
 	}
 	
+	/**
+	 * An insertion sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return InsertionSort
+	 */
 	private static <T> InsertionSort<?> insertionSortTest(final T[] array, final int insertionNum)
 	{
 		InsertionSort<Integer> inSort = new InsertionSort<Integer>(Integer.class, insertionNum);
 		inSort.setArray((Integer[]) array);
 		inSort.sort();
 		return inSort;
+	}
+	
+	/**
+	 * A selection sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return SelectionSort
+	 */
+	private static <T> SelectionSort<?> selectionSortTest(final T[] array, final int insertionNum)
+	{
+		SelectionSort<Integer> sSort = new SelectionSort<Integer>(Integer.class, insertionNum);
+		sSort.setArray((Integer[]) array);
+		sSort.sort();
+		return sSort;
 	}
 }
