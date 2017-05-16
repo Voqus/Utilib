@@ -3,6 +3,7 @@ package com.utilib;
 import java.util.Random;
 
 import com.utilib.algorithms.sorting.BubbleSort;
+import com.utilib.algorithms.sorting.InsertionSort;
 import com.utilib.algorithms.sorting.MergeSort;
 import com.utilib.algorithms.sorting.QuickSort;
 import com.utilib.data_structures.LinkedList;
@@ -41,6 +42,8 @@ public class Main
 		Timer.calculateExecutionTime(() -> quickSortTest(array, N));
 		System.out.print("MergeSort:	");
 		Timer.calculateExecutionTime(() -> mergeSortTest(array, N));
+		System.out.print("InsertionSort:	");
+		Timer.calculateExecutionTime(() -> insertionSortTest(array, N));
 	}
 	
 	/**
@@ -135,5 +138,13 @@ public class Main
 		mSort.setArray((Integer[]) array);
 		mSort.sort();
 		return mSort;
+	}
+	
+	private static <T> InsertionSort<?> insertionSortTest(final T[] array, final int insertionNum)
+	{
+		InsertionSort<Integer> inSort = new InsertionSort<Integer>(Integer.class, insertionNum);
+		inSort.setArray((Integer[]) array);
+		inSort.sort();
+		return inSort;
 	}
 }
