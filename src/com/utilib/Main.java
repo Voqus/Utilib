@@ -3,6 +3,7 @@ package com.utilib;
 import java.util.Random;
 
 import com.utilib.algorithms.sorting.BubbleSort;
+import com.utilib.algorithms.sorting.HeapSort;
 import com.utilib.algorithms.sorting.InsertionSort;
 import com.utilib.algorithms.sorting.MergeSort;
 import com.utilib.algorithms.sorting.QuickSort;
@@ -47,6 +48,8 @@ public class Main
 		Timer.calculateExecutionTime(() -> insertionSortTest(array, N));
 		System.out.print("SelectionSort:	");
 		Timer.calculateExecutionTime(() -> selectionSortTest(array, N));
+		System.out.print("HeapSort:	");
+		Timer.calculateExecutionTime(() -> heapSortTest(array, N));
 	}
 	
 	/**
@@ -192,5 +195,20 @@ public class Main
 		sSort.setArray((Integer[]) array);
 		sSort.sort();
 		return sSort;
+	}
+	
+	/**
+	 * A heap sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return HeapSort
+	 */
+	private static <T> HeapSort<?> heapSortTest(final T[] array, final int insertionNum)
+	{
+		HeapSort<Integer> hSort = new HeapSort<Integer>(Integer.class, insertionNum);
+		hSort.setArray((Integer[]) array);
+		hSort.sort();
+		return hSort;
 	}
 }
