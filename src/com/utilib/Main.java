@@ -3,6 +3,7 @@ package com.utilib;
 import java.util.Random;
 
 import com.utilib.algorithms.sorting.BubbleSort;
+import com.utilib.algorithms.sorting.CountingSort;
 import com.utilib.algorithms.sorting.HeapSort;
 import com.utilib.algorithms.sorting.InsertionSort;
 import com.utilib.algorithms.sorting.MergeSort;
@@ -50,6 +51,8 @@ public class Main
 		Timer.calculateExecutionTime(() -> selectionSortTest(array, N));
 		System.out.print("HeapSort:	");
 		Timer.calculateExecutionTime(() -> heapSortTest(array, N));
+		System.out.print("CountingSort:	");
+		Timer.calculateExecutionTime(() -> countingSortTest(array, N));
 	}
 	
 	/**
@@ -210,5 +213,20 @@ public class Main
 		hSort.setArray((Integer[]) array);
 		hSort.sort();
 		return hSort;
+	}
+	
+	/**
+	 * A counting sort sorting test based on the number of the insertions given.
+	 * 
+	 * @param array
+	 * @param insertionNum
+	 * @return CountingSort
+	 */
+	private static <T> CountingSort<?> countingSortTest(final T[] array, final int insertionNum)
+	{
+		CountingSort<Integer> cSort = new CountingSort<Integer>(Integer.class, insertionNum);
+		cSort.setArray((Integer[]) array);
+		cSort.sort();
+		return cSort;
 	}
 }
