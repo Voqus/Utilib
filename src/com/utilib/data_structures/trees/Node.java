@@ -4,10 +4,11 @@ import java.util.Comparator;
 
 public class Node<K extends Comparable<K>, V extends Comparable<V>> implements Comparator<Node<K, V>>
 {
-	public Node<K, V> _left;
-	public Node<K, V> _right;
-	private K _key;
-	private V _value;
+	public Node<K, V>	_left;
+	public Node<K, V>	_right;
+	private K			_key;
+	private V			_value;
+	private boolean		_isVisited;
 	
 	public Node(final K key, final V value)
 	{
@@ -36,6 +37,16 @@ public class Node<K extends Comparable<K>, V extends Comparable<V>> implements C
 	public void setValue(final V value)
 	{
 		_value = value;
+	}
+	
+	public boolean isVisited()
+	{
+		return _isVisited;
+	}
+
+	public void setVisited(boolean _isVisited)
+	{
+		this._isVisited = _isVisited;
 	}
 	
 	@Override

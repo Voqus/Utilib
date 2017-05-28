@@ -7,16 +7,16 @@ import com.utilib.data_structures.trees.Node;
 
 public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 {
-	private AdjacencyMatrix<Boolean> 	_adjMatrix;
-	private Node<K, V> 					_vertexList[];
-	private int 						_numVertices = 0;
+	private AdjacencyMatrix<Boolean>	_adjMatrix;
+	private Node<K, V>					_vertexList[];
+	private int							_numVertices	= 0;
 	
 	@SuppressWarnings("unchecked")
 	public Graph(final int numVertices)
 	{
-		_vertexList 	= (Node<K, V>[]) Array.newInstance(Node.class, numVertices);
-		_adjMatrix 		= new AdjacencyMatrix<Boolean>(Boolean.class, numVertices, false);
-		_numVertices 	= numVertices;
+		_vertexList = (Node<K, V>[]) Array.newInstance(Node.class, numVertices);
+		_adjMatrix = new AdjacencyMatrix<Boolean>(Boolean.class, numVertices, false);
+		_numVertices = numVertices;
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public void setVertex(final int index, final Node<K, V> node)
 	{
-		if(index >= _numVertices)
+		if (index >= _numVertices)
 			throw new NoSuchElementException("You have exceeded the number of vertices.");
 		
 		_vertexList[index] = node;
@@ -49,7 +49,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 * @param index
 	 * @return Node
 	 */
-	public Node<K,V> getVertex(final int index)
+	public Node<K, V> getVertex(final int index)
 	{
 		return (_vertexList[index]);
 	}
@@ -89,7 +89,8 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	}
 	
 	/**
-	 * Removes a bidirectional(both-ways) edge from {@code start} to {@code end}.
+	 * Removes a bidirectional(both-ways) edge from {@code start} to
+	 * {@code end}.
 	 * 
 	 * @param start
 	 * @param end
@@ -101,12 +102,36 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	}
 	
 	/**
+	 * Returns the position of the unvisited adjacent vertex.
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public int getAdjacentUnvisitedVertex(final int start, final int end)
+	{
+		for (int j = 0; j < _numVertices; j++)
+			if (_adjMatrix.getValue(start, j) && !_vertexList[j].isVisited())
+				return j;
+		
+		return -1;
+	}
+	
+	/**
+	 * @return Returns the vertex list of the graph.
+	 */
+	public Node<K, V>[] getVertexList()
+	{
+		return _vertexList;
+	}
+	
+	/**
 	 * Prints the vertex list and adjacency matrix.
 	 */
 	public void print()
 	{
 		System.out.println("---- Vertex List ----");
-		for(int i = 0; i < _numVertices; i ++)
+		for (int i = 0; i < _numVertices; i++)
 			System.out.println("[ " + _vertexList[i] + " ]");
 		
 		System.out.println("\n---- Adjacency Matrix ----");
@@ -123,7 +148,7 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	
 	public static void main(String[] args)
 	{
-		Graph<Integer,Integer> graph = new Graph<Integer, Integer>(5);
+		Graph<Integer, Integer> graph = new Graph<Integer, Integer>(5);
 		
 		// Setting vertices
 		graph.setVertex(0, new Node<Integer, Integer>(0, 0));
