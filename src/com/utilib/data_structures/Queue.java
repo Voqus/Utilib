@@ -166,13 +166,13 @@ public class Queue<K, V>
 		return _numNodes;
 	}
 	
-	private class Node<K, V>
+	private class Node<Key, Value>
 	{
-		private Node<K, V> _previous;
-		private K _key;
-		private V _value;
+		private Node<Key, Value> _previous;
+		private Key _key;
+		private Value _value;
 		
-		public Node(final K key, final V value)
+		public Node(final Key key, final Value value)
 		{
 			setKey(key);
 			setValue(value);
@@ -180,32 +180,32 @@ public class Queue<K, V>
 			_previous = null;
 		}
 		
-		public V getValue()
+		public Value getValue()
 		{
 			return _value;
 		}
 		
-		public void setValue(V value)
+		public void setValue(Value value)
 		{
 			_value = value;
 		}
 		
-		public K getKey()
+		public Key getKey()
 		{
 			return _key;
 		}
 		
-		public void setKey(K _key)
+		public void setKey(Key _key)
 		{
 			this._key = _key;
 		}
 		
-		public void setPrevious(final Node<K, V> node)
+		public void setPrevious(final Node<Key, Value> node)
 		{
 			_previous = node;
 		}
 		
-		public Node<K, V> getPrevious()
+		public Node<Key, Value> getPrevious()
 		{
 			return _previous;
 		}

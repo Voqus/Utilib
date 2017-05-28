@@ -4,10 +4,10 @@ import java.util.NoSuchElementException;
 
 public class LinkedList<K, V>
 {
-	private Node<K, V> _head;
-	private Node<K, V> _tail;
-	private int _numNodes = 0;
-	private boolean _allowDuplicates = true;
+	private Node<K, V>	_head;
+	private Node<K, V>	_tail;
+	private int			_numNodes			= 0;
+	private boolean		_allowDuplicates	= true;
 	
 	public LinkedList(final boolean allowDuplicates)
 	{
@@ -297,58 +297,58 @@ public class LinkedList<K, V>
 		return _numNodes;
 	}
 	
-	private class Node<K, V>
+	private class Node<Key, Value>
 	{
-		private Node<K, V> _next;
-		private Node<K, V> _previous;
-		private K _key;
-		private V _value;
+		private Node<Key, Value>	_next;
+		private Node<Key, Value>	_previous;
+		private Key					_key;
+		private Value				_value;
 		
-		public Node(final K key, final V value)
+		public Node(final Key key, final Value value)
 		{
-			_key = key;
-			_value = value;
+			setKey(key);
+			setValue(value);
 			
 			_next = null;
 			_previous = null;
 		}
 		
-		public K getKey()
+		public Key getKey()
 		{
 			return _key;
 		}
 		
-		public void setKey(final K key)
+		public void setKey(final Key key)
 		{
 			this._key = key;
 		}
 		
-		public V getValue()
+		public Value getValue()
 		{
 			return _value;
 		}
 		
-		public void setValue(final V value)
+		public void setValue(final Value value)
 		{
 			_value = value;
 		}
 		
-		public Node<K, V> getNext()
+		public Node<Key, Value> getNext()
 		{
 			return _next;
 		}
 		
-		public void setNext(final Node<K, V> next)
+		public void setNext(final Node<Key, Value> next)
 		{
 			_next = next;
 		}
 		
-		public Node<K, V> getPrevious()
+		public Node<Key, Value> getPrevious()
 		{
 			return _previous;
 		}
 		
-		public void setPrevious(final Node<K, V> previous)
+		public void setPrevious(final Node<Key, Value> previous)
 		{
 			_previous = previous;
 		}
