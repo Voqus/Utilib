@@ -110,9 +110,9 @@ public class Graph<K extends Comparable<K>, V extends Comparable<V>>
 	 */
 	public int getAdjacentUnvisitedVertex(final int start, final int end)
 	{
-		for (int j = 0; j < _numVertices; j++)
-			if (_adjMatrix.getValue(start, j) && !_vertexList[j].isVisited())
-				return j;
+		for (int i = 0; i < _numVertices; i++)
+			if (_adjMatrix.getValue(start, i) && !_vertexList[i].isVisited())
+				return i;
 		
 		return -1;
 	}

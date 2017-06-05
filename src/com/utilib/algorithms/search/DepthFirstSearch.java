@@ -1,52 +1,49 @@
 package com.utilib.algorithms.search;
 
 import com.utilib.data_structures.Graph;
-import com.utilib.data_structures.Queue;
+import com.utilib.data_structures.Stack;
 import com.utilib.data_structures.trees.Node;
 
-public class BreadthFirstSearch<K extends Comparable<K>, V extends Comparable<V>>
+public class DepthFirstSearch<K extends Comparable<K>, V extends Comparable<V>>
 {
 	private Graph<K, V> _graph;
 	
-	public BreadthFirstSearch(final Graph<K, V> graph)
+	public DepthFirstSearch(final Graph<K, V> graph)
 	{
 		_graph = graph;
 	}
 	
-	/**
-	 * Performs breadth-first search on the graph provided.
-	 */
 	public void search()
 	{
 		// If graph has no vertices return
 		if (_graph.size() == 0)
 			return;
 		
-		// Store vertex positions to the queue
-		// The queue used is the one coded in data_structures package.
-		Queue<Integer, Integer> queue = new Queue<Integer, Integer>(true);
-		queue.insert(0, 0);
+		// Store vertex positions to the stack
+		// The stack used is the one coded in data_structures package.
+		Stack<Integer, Integer> stack = new Stack<Integer, Integer>(true);
+		stack.push(0, 0);
 		
-		int vPos1, vPos2 = 0;
+		int vPos = 0;
 		
 		// Set the first vertex as visited
 		Node<K, V>[] vList = _graph.getVertexList();
 		vList[0].setVisited(true);
 		System.out.println(vList[0]);
 		
-		// While queue is not empty
-		while (!queue.isEmpty())
+		// While stack is not empty
+		while (!stack.isEmpty())
 		{
-			vPos1 = queue.remove();
-			
 			// Visit adjacent vertices
-			while (_graph.getAdjacentUnvisitedVertex(vPos1, vPos2) != -1)
+			if (_graph.getAdjacentUnvisitedVertex(stack.peek(), vPos) != -1)
 			{
-				vPos2 = _graph.getAdjacentUnvisitedVertex(vPos1, vPos2);
-				vList[vPos2].setVisited(true);
-				System.out.println(vList[vPos2]);
-				queue.insert(vPos2, vPos2);
+				vPos = _graph.getAdjacentUnvisitedVertex(stack.peek(), vPos);
+				vList[vPos].setVisited(true);
+				System.out.println(vList[vPos]);
+				stack.push(vPos, vPos);
 			}
+			else
+				stack.pop();
 		}
 	}
 	
@@ -90,8 +87,8 @@ public class BreadthFirstSearch<K extends Comparable<K>, V extends Comparable<V>
 		graph.print();
 		
 		// Perform breadth-first search on the graph created above.
-		BreadthFirstSearch<String, Integer> bfs = new BreadthFirstSearch<String, Integer>(graph);
-		System.out.println("\n---- BFS ----");
-		bfs.search();
+		DepthFirstSearch<String, Integer> dfs = new DepthFirstSearch<String, Integer>(graph);
+		System.out.println("\n---- DFS ----");
+		dfs.search();
 	}
 }

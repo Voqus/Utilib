@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 public class Stack<K, V>
 {
-	private Node<K, V> 	_firstNode;
 	private Node<K, V> 	_lastNode;
 	private int 		_numNodes = 0;
 	private boolean 	_allowDuplicates = true;
@@ -13,7 +12,7 @@ public class Stack<K, V>
 	public Stack(final boolean allowDuplicates)
 	{
 		_allowDuplicates = allowDuplicates;
-		_firstNode = null;
+		_lastNode = null;
 	}
 	
 	public Stack(final K key, final V value, final boolean allowDuplicates)
@@ -21,8 +20,7 @@ public class Stack<K, V>
 		Node<K, V> node = new Node<K, V>(key, value);
 		_allowDuplicates = allowDuplicates;
 		
-		_firstNode = node;
-		_lastNode = _firstNode;
+		_lastNode = node;
 		
 		_numNodes++;
 	}
@@ -39,8 +37,7 @@ public class Stack<K, V>
 		if (isEmpty())
 		{
 			Node<K, V> node = new Node<K, V>(key, value);
-			_firstNode = node;
-			_lastNode = _firstNode;
+			_lastNode = node;
 			
 			_numNodes++;
 			return true;
@@ -92,7 +89,7 @@ public class Stack<K, V>
 		if (isEmpty())
 			throw new NoSuchElementException("Stack underflow");
 		
-		return _firstNode.getValue();
+		return _lastNode.getValue();
 	}
 	
 	/**
