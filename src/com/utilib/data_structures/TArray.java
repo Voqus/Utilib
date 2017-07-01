@@ -8,14 +8,14 @@ import com.utilib.algorithms.sorting.QuickSort;
 
 public class TArray<T extends Comparable<T>>
 {
-	private T[] _array;
-	private int _index;
+	public T[]	_array;
+	private int	_size;
 	
 	@SuppressWarnings("unchecked")
 	public TArray(final Class<T> cls, final int size)
 	{
 		_array = (T[]) Array.newInstance(cls, size);
-		_index = 0;
+		_size = 0;
 		
 		// Initialize the array.
 		for (int i = 0; i < size; i++)
@@ -26,7 +26,7 @@ public class TArray<T extends Comparable<T>>
 	 * Adds the element into the array.
 	 * 
 	 * @param element
-	 * @return true/false if it added to array or not.
+	 * @return true/false if element was added in the array or not.
 	 */
 	public boolean add(final T element)
 	{
@@ -37,6 +37,8 @@ public class TArray<T extends Comparable<T>>
 			if (_array[i] == null)
 			{
 				_array[i] = element;
+				_size++;
+				
 				return true;
 			}
 		}
@@ -92,17 +94,27 @@ public class TArray<T extends Comparable<T>>
 			return -1;
 		
 		_array[index] = null;
+		_size--;
 		
 		return index;
 	}
 	
 	/**
+	 * @return the number of the elements inserted into the array.
+	 */
+	public int getSize()
+	{
+		return _size;
+	}
+	
+	/**
 	 * Checks if the array is empty.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEmpty()
 	{
-		return (_index == 0);
+		return (_size == 0);
 	}
 	
 	/**
